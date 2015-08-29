@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Almost Random Words</title>
+        <meta name="description" content="A passphrase generator that picks Diceware words without dice.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <p>This page is a passphrase generator that uses words from a popular predefined list. It uses cryptographically random values.</p>
+
+        <input type="number" id="howMany" value="7">
+        <button type="button" onclick="document.getElementById('result').innerHTML = almost.getWords(getElementById('howMany').value)">Generate Passphrase</button>
+        <p id="result"></p>
+        <script src="almost.js"></script>
+    </body>
+</html>
