@@ -1,2 +1,2 @@
-# almost.rw
+# almost-rw
 Almost Random Words
