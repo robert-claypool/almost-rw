@@ -4,13 +4,13 @@ var almost = (function() {
         // TODO: Return the specified entry from our words list.
         return 'word' + id;
     }
-    
+
     return {
         getWords : function(howMany) {
             if (window.crypto && window.crypto.getRandomValues) {
-                // Get random values using a (believed to be) cryptographically secure method.			
+                // Get random values using a (believed to be) cryptographically secure method.
                 // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
-                var array = new Uint32Array(howMany);
+                var array = new Uint32Array(/*edge requires explicit type conversion*/Number(howMany));
                 window.crypto.getRandomValues(array);
 
                 // Build our passphrase. The words are space delimited.
@@ -21,9 +21,14 @@ var almost = (function() {
                     p += ' ' + word;
                 }
 
-                // TODO: Trim the leading/trailing spaces.
+                // trim() is native to String only in browsers that support ECMAScript 5
+                if (!String.prototype.trim) {
+                    String.prototype.trim = function() {
+                        return this.replace(/^\s+|\s+$/g,'');
+                    };
+                }
 
-                return p;
+                return p.trim();
             }
             else {
                 return "Error: Cannot find a cryptographically secure source of randomness."
