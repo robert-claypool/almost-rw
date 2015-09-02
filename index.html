@@ -8,14 +8,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <!--[if lt IE 9]>
+            <p class="browserupgrade">Please <a href="http://browsehappy.com/">upgrade your browser</a> to use this site.</p>
         <![endif]-->
 
-        <p>This page is a passphrase generator that uses words from a popular predefined list. It uses cryptographically random values.</p>
+        <p>
+        This page prints random words from a popular <a href="https://en.wikipedia.org/wiki/Diceware">Diceware</a> words list.
+        It uses a cryptographically strong method, but please use
+        <a href="http://world.std.com/~reinhold/dicewarefaq.html#electronic">physical entropy</a> for your highest security applications.
+        </p>
 
-        <input type="number" id="howMany" value="7">
-        <button type="button" id="run" onclick="run()">Generate Passphrase</button>
+        <input type="number" id="howMany" value="10">
+        <button type="button" id="run" onclick="run()">Get Words</button>
         <p id="result"></p>
         <script src="almost.js"></script>
         <script>
