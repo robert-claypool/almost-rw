@@ -7,17 +7,18 @@ var almost = (function() {
 
     return {
         getWords : function(howMany) {
-            if (window.crypto && window.crypto.getRandomValues) {
+            var c = window.crypto || window.msCrypto;
+            if (c && c.getRandomValues) {
                 // Get random values using a (believed to be) cryptographically secure method.
                 // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
                 var array = new Uint32Array(/*edge requires explicit type conversion*/Number(howMany));
-                window.crypto.getRandomValues(array);
+                c.getRandomValues(array);
 
                 // Build our passphrase. The words are space delimited.
                 var p = '';
                 for (var i = 0; i < array.length; i++) {
                     // Choose a corresponding entry from our words list.
-                var word = lookupWord(array[i]);
+                    var word = lookupWord(array[i]);
                     p += ' ' + word;
                 }
 
