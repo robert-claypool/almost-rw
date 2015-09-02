@@ -41,9 +41,9 @@ var almost = {};
     almost.getWords = function(howMany) {
         var c = window.crypto || window.msCrypto;
         if (c && c.getRandomValues) {
-            // Get random values using a (believed to be) cryptographically secure method
+            // Get random values using a (believed to be) cryptographically sound method
             // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
-            var array = new Uint32Array(/*edge requires explicit type conversion*/Number(howMany));
+            var array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
             c.getRandomValues(array);
 
             // The words are space delimited.
