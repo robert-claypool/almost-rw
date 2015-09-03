@@ -4,6 +4,12 @@ var almost = {};
     this.wordlist = [];
 
     almost.load = function(callback) {
+        if (wordlist.length > 0) {
+            // It's already loaded
+            callback();
+            return;
+        }
+
         var request = new XMLHttpRequest();
         // Requires a web server; CORS will reject loading this via the file: protocol
         request.open('GET', 'diceware.wordlist.asc', true);
@@ -23,7 +29,6 @@ var almost = {};
                         wordlist.push(word[1]);
                     }
                 }
-
                 callback();
             }
             else {
@@ -46,11 +51,14 @@ var almost = {};
             var array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
             c.getRandomValues(array);
 
-            // The words are space delimited.
             var p = '';
+            var uint16_range = 65535; // 0xFFFF - 0x0000
             for (var i = 0; i < array.length; i++) {
-                // Grab the corresponding entry from our words list
-                var word = wordlist[8]; // TODO: replace the hard-coded key
+                // Get our random number as a percent along the range of possibilities
+                var pct = array[i] / uint16_range;
+                // Scale up for the number of words we have
+                var j = Math.floor(pct * wordlist.length);
+                var word = wordlist[j];
                 p += ' ' + word;
             }
 
