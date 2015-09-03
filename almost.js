@@ -51,7 +51,7 @@ var almost = {};
             var array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
             c.getRandomValues(array);
 
-            var p = '';
+            var words = [];
             var uint16_range = 65535; // 0xFFFF - 0x0000
             for (var i = 0; i < array.length; i++) {
                 // Get our random number as a percent along the range of possibilities
@@ -59,17 +59,10 @@ var almost = {};
                 // Scale up for the number of words we have
                 var j = Math.floor(pct * wordlist.length);
                 var word = wordlist[j];
-                p += ' ' + word;
+                words.push(word);
             }
 
-            // trim() is native to String only in browsers that support ECMAScript 5
-            if (!String.prototype.trim) {
-                String.prototype.trim = function() {
-                    return this.replace(/^\s+|\s+$/g,'');
-                };
-            }
-
-            return p.trim();
+            return words.join(' ');
         }
         else {
             return "Error: Cannot find a cryptographically secure source of randomness."
