@@ -33,11 +33,13 @@ var almost = {};
             }
             else {
                 // We reached our target server, but it returned an error
+                // TODO: handle it
             }
         };
 
         request.onerror = function() {
             // There was a connection error of some sort
+            // TODO: handle it
         };
 
         request.send();
@@ -46,8 +48,9 @@ var almost = {};
     almost.getWords = function(howMany) {
         var c = window.crypto || window.msCrypto;
         if (c && c.getRandomValues) {
-            // Get random values using a (believed to be) cryptographically sound method
+            // Get random values using a cryptographically sound method
             // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
+            if (howMany > 1000) { howMany = 1000; }
             var array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
             c.getRandomValues(array);
 
@@ -65,7 +68,8 @@ var almost = {};
             return words.join(' ');
         }
         else {
-            return "Error: Cannot find a cryptographically secure source of randomness."
+            return "Error: Cannot find a cryptographically sound random number generator. " +
+                   "Please try another more modren browser."
         }
     };
 })();
