@@ -6,21 +6,27 @@
         <title>Almost Random Words</title>
         <meta name="description" content="A passphrase generator that picks Diceware words without dice.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
     </head>
-    <body>
+    <body style="margin:2em;">
         <!--[if lt IE 9]>
             <p class="browserupgrade">Please <a href="http://browsehappy.com/">upgrade your browser</a> to use this site.</p>
         <![endif]-->
 
-        <p>
-        This page prints random words from a popular <a href="https://en.wikipedia.org/wiki/Diceware">Diceware</a> words list.
-        It uses a cryptographically strong method, but please use
-        <a href="http://world.std.com/~reinhold/dicewarefaq.html#electronic">physical entropy</a> for your highest security applications.
-        </p>
-
-        <input type="number" id="howMany" value="10">
-        <button type="button" id="run" onclick="run()">Get Words</button>
-        <p id="result"></p>
+        <div class="splash-container">
+            <div class="splash">
+                <h1 class="splash-head">Almost Random Words</h1>
+                <p class="splash-subhead">
+                This page prints random words from a popular <a href="https://en.wikipedia.org/wiki/Diceware">Diceware</a> words list.
+                It uses a cryptographically strong method, but please use
+                <a href="http://world.std.com/~reinhold/dicewarefaq.html#electronic">physical entropy</a> for your highest security applications.
+            </div>
+        </div>
+        <div class="pure-form">
+            <input type="number" id="howMany" value="100">
+            <button type="button" id="run" class="pure-button pure-button-primary" onclick="run()">Get Words</button>
+            <p id="result"></p>
+        </div>
         <script src="almost.js"></script>
         <script>
         function run() {
