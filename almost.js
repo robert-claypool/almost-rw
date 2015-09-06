@@ -1,7 +1,8 @@
 var almost = {};
 
 (function() {
-    this.wordlist = [];
+    "use strict";
+    var wordlist = [];
 
     almost.load = function(callback) {
         if (wordlist.length > 0) {
@@ -20,7 +21,7 @@ var almost = {};
                 var data = request.responseText;
                 var lines = data.split('\n');
                 for (var i = 0; i < lines.length; i++) {
-                    line = lines[i];
+                    var line = lines[i];
                     if (line === '-----BEGIN PGP SIGNED MESSAGE-----') { continue; }
                     if (line === '') {  continue; }
                     if (line === '-----BEGIN PGP SIGNATURE-----') { break; }
@@ -43,7 +44,7 @@ var almost = {};
         };
 
         request.send();
-    }
+    };
 
     almost.getWords = function(howMany) {
         var c = window.crypto || window.msCrypto;
@@ -69,7 +70,7 @@ var almost = {};
         }
         else {
             return "Error: Cannot find a cryptographically sound random number generator. " +
-                   "Please try another more modren browser."
+                   "Please try another more modren browser.";
         }
     };
 })();
