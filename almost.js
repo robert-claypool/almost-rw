@@ -70,7 +70,7 @@ var almost = {};
         }
         else {
             return "Error: Cannot find a cryptographically sound random number generator. " +
-                   "Please try another more modren browser.";
+                   "Please try another more modern browser.";
         }
     };
 })();
