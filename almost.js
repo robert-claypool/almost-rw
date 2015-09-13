@@ -11,21 +11,21 @@ var almost = {};
             return;
         }
 
-        let request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
         // Requires a web server; CORS will reject loading this via the file: protocol
         request.open('GET', 'diceware.wordlist.asc', true);
 
         request.onload = function() {
             if (request.status >= 200 && request.status < 400) {
                 // Extract the words
-                let data = request.responseText;
-                let lines = data.split('\n');
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i];
+                var data = request.responseText;
+                var lines = data.split('\n');
+                for (var i = 0; i < lines.length; i++) {
+                    var line = lines[i];
                     if (line === '-----BEGIN PGP SIGNED MESSAGE-----') { continue; }
                     if (line === '') {  continue; }
                     if (line === '-----BEGIN PGP SIGNATURE-----') { break; }
-                    let word = /^\d{5}\s(.+)$/.exec(line);
+                    var word = /^\d{5}\s(.+)$/.exec(line);
                     if (word) {
                         wordlist.push(word[1]);
                     }
@@ -47,22 +47,22 @@ var almost = {};
     };
 
     almost.getWords = function(howMany) {
-        let c = window.crypto || window.msCrypto;
+        var c = window.crypto || window.msCrypto;
         if (c && c.getRandomValues) {
             // Get random values using a cryptographically sound method
             // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
             if (howMany > 1000) { howMany = 1000; }
-            let array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
+            var array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
             c.getRandomValues(array);
 
-            let words = [];
+            var words = [];
             const uint16_range = 65535; // 0xFFFF - 0x0000
-            for (let i = 0; i < array.length; i++) {
+            for (var i = 0; i < array.length; i++) {
                 // Get our random number as a percent along the range of possibilities
-                let pct = array[i] / uint16_range;
+                var pct = array[i] / uint16_range;
                 // Scale up for the number of words we have
-                let j = Math.floor(pct * wordlist.length);
-                let word = wordlist[j];
+                var j = Math.floor(pct * wordlist.length);
+                var word = wordlist[j];
                 words.push(word);
             }
 
