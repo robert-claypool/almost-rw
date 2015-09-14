@@ -56,7 +56,7 @@ var almost = {};
             c.getRandomValues(array);
 
             var words = [];
-            const uint16_range = 65535; // 0xFFFF - 0x0000
+            var uint16_range = 65535; // 0xFFFF - 0x0000
             for (var i = 0; i < array.length; i++) {
                 // Get our random number as a percent along the range of possibilities
                 var pct = array[i] / uint16_range;
