@@ -1,44 +1,55 @@
-"use strict";
+'use strict';
 var almost = {};
 
-(function() {
+(function () {
   var wordlist = [];
+  var request;
+  var uInt16Range;
+  var array;
+  var data;
+  var lines;
+  var line;
+  var words;
+  var word;
+  var pct;
+  var c;
+  var i;
+  var j;
 
-  almost.load = function(callback) {
+  almost.load = function (callback) {
     if (wordlist.length > 0) {
       // It's already loaded
       callback();
       return;
     }
 
-    var request = new XMLHttpRequest();
     // Requires a web server; CORS will reject loading this via the file: protocol
+    request = new XMLHttpRequest();
     request.open('GET', 'diceware.wordlist.asc', true);
 
-    request.onload = function() {
+    request.onload = function () {
       if (request.status >= 200 && request.status < 400) {
         // Extract the words
-        var data = request.responseText;
-        var lines = data.split('\n');
-        for (var i = 0; i < lines.length; i++) {
-          var line = lines[i];
+        data = request.responseText;
+        lines = data.split('\n');
+        for (i = 0; i < lines.length; i++) {
+          line = lines[i];
           if (line === '-----BEGIN PGP SIGNED MESSAGE-----') { continue; }
-          if (line === '') {  continue; }
+          if (line === '') { continue; }
           if (line === '-----BEGIN PGP SIGNATURE-----') { break; }
-          var word = /^\d{5}\s(.+)$/.exec(line);
+          word = /^\d{5}\s(.+)$/.exec(line);
           if (word) {
             wordlist.push(word[1]);
           }
         }
         callback();
-      }
-      else {
+      } else {
         // We reached our target server, but it returned an error
         // TODO: handle it
       }
     };
 
-    request.onerror = function() {
+    request.onerror = function () {
       // There was a connection error of some sort
       // TODO: handle it
     };
@@ -46,31 +57,30 @@ var almost = {};
     request.send();
   };
 
-  almost.getWords = function(howMany) {
-    var c = window.crypto || window.msCrypto;
+  almost.getWords = function (howMany) {
+    c = window.crypto || window.msCrypto;
     if (c && c.getRandomValues) {
       // Get random values using a cryptographically sound method
       // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
       if (howMany > 1000) { howMany = 1000; }
-      var array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
+      array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
       c.getRandomValues(array);
 
-      var words = [];
-      var uint16_range = 65535; // 0xFFFF - 0x0000
-      for (var i = 0; i < array.length; i++) {
+      words = [];
+      uInt16Range = 65535; // 0xFFFF - 0x0000
+      for (i = 0; i < array.length; i++) {
         // Get our random number as a percent along the range of possibilities
-        var pct = array[i] / uint16_range;
+        pct = array[i] / uInt16Range;
         // Scale up for the number of words we have
-        var j = Math.floor(pct * wordlist.length);
-        var word = wordlist[j];
+        j = Math.floor(pct * wordlist.length);
+        word = wordlist[j];
         words.push(word);
       }
 
       return words.join(' ');
-    }
-    else {
-      return "Error: Cannot find a cryptographically sound random number generator. " +
-        "Please try another more modern browser.";
+    } else {
+      return 'Error: Cannot find a cryptographically sound random number generator. ' +
+        'Please try another more modern browser.';
     }
   };
-})();
+}());
