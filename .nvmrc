@@ -1,0 +1,6 @@
+v8.1.3
+
+# nvm use, nvm install, nvm exec, nvm run, and nvm which will
+# respect an .nvmrc when a version is not supplied.
+#
+# 8.x.x is LTS, a long term supported version

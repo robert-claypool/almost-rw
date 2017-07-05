@@ -1,7 +1,8 @@
 'use strict';
+
 var almost = {};
 
-(function () {
+(function() {
   var wordlist = [];
   var request;
   var uInt16Range;
@@ -16,7 +17,7 @@ var almost = {};
   var i;
   var j;
 
-  almost.load = function (callback) {
+  almost.load = function(callback) {
     if (wordlist.length > 0) {
       // It's already loaded
       callback();
@@ -27,16 +28,22 @@ var almost = {};
     request = new XMLHttpRequest();
     request.open('GET', 'diceware.wordlist.asc', true);
 
-    request.onload = function () {
+    request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
         // Extract the words
         data = request.responseText;
         lines = data.split('\n');
         for (i = 0; i < lines.length; i++) {
           line = lines[i];
-          if (line === '-----BEGIN PGP SIGNED MESSAGE-----') { continue; }
-          if (line === '') { continue; }
-          if (line === '-----BEGIN PGP SIGNATURE-----') { break; }
+          if (line === '-----BEGIN PGP SIGNED MESSAGE-----') {
+            continue;
+          }
+          if (line === '') {
+            continue;
+          }
+          if (line === '-----BEGIN PGP SIGNATURE-----') {
+            break;
+          }
           word = /^\d{5}\s(.+)$/.exec(line);
           if (word) {
             wordlist.push(word[1]);
@@ -49,7 +56,7 @@ var almost = {};
       }
     };
 
-    request.onerror = function () {
+    request.onerror = function() {
       // There was a connection error of some sort
       // TODO: handle it
     };
@@ -57,13 +64,16 @@ var almost = {};
     request.send();
   };
 
-  almost.getWords = function (howMany) {
+  almost.getWords = function(howMany) {
     c = window.crypto || window.msCrypto;
     if (c && c.getRandomValues) {
       // Get random values using a cryptographically sound method
-      // See http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
-      if (howMany > 1000) { howMany = 1000; }
-      array = new Uint16Array(/*edge requires explicit type conversion*/Number(howMany));
+      // http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
+      if (howMany > 1000) {
+        howMany = 1000;
+      }
+      // Edge requires explicit type conversion
+      array = new Uint16Array(Number(howMany));
       c.getRandomValues(array);
 
       words = [];
@@ -78,9 +88,10 @@ var almost = {};
       }
 
       return words.join(' ');
-    } else {
-      return 'Error: Cannot find a cryptographically sound random number generator. ' +
-        'Please try another more modern browser.';
     }
+    return (
+      'Error: Cannot find a cryptographically sound random number generator. ' +
+      'Please try another more modern browser.'
+    );
   };
-}());
+})();
