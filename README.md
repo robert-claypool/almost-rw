@@ -1,11 +1,11 @@
 # [Almost Random Words](http://robert-claypool.github.io/almost-rw/)
 
-# Lint
+## Lint
 ```
 npm install # Install packages
 npm install -g grunt-cli # Grunt CLI must be globally installed
 grunt
 ```
 
-# Build
+## Build
 There is no build.
