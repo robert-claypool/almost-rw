@@ -26,7 +26,7 @@ var almost = {};
 
     // Requires a web server; CORS will reject loading this via the file: protocol
     request = new XMLHttpRequest();
-    request.open('GET', 'diceware.wordlist.asc', true);
+    request.open('GET', 'eff_large_wordlist.asc', true);
 
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
@@ -38,7 +38,13 @@ var almost = {};
           if (line === '-----BEGIN PGP SIGNED MESSAGE-----') {
             continue;
           }
+          if (line === 'Hash: SHA256') {
+            continue;
+          }
           if (line === '') {
+            continue;
+          }
+          if (line === 'https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases') {
             continue;
           }
           if (line === '-----BEGIN PGP SIGNATURE-----') {
