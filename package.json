@@ -1,6 +1,6 @@
 {
   "name": "almost-rw",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Almost random words",
   "main": "almost.js",
   "scripts": {
@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/robert-claypool/almost-rw#readme",
   "devDependencies": {
-    "eslint": "3.4.0",
-    "grunt": "^1.0.1",
-    "grunt-eslint": "^20.0.0"
+    "eslint": "5.11.0",
+    "grunt": "^1.0.3",
+    "grunt-eslint": "^21.0.0"
   }
 }
