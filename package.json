@@ -23,6 +23,7 @@
   "devDependencies": {
     "eslint": "5.16.0",
     "grunt": "^1.0.4",
-    "grunt-eslint": "^21.0.0"
+    "grunt-eslint": "^21.0.0",
+    "prettier": "^1.18.2"
   }
 }

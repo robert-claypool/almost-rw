@@ -4,10 +4,7 @@ module.exports = function run(grunt) {
       options: {
         useEslintrc: true,
       },
-      all: [
-        'Gruntfile.js',
-        '*.js',
-      ],
+      all: ['Gruntfile.js', '*.js'],
     },
   });
 

@@ -1,13 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Almost Random Words</title>
-    <meta name="description" content="This page prints random words from a popular diceware words list.">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <meta
+      name="description"
+      content="This page prints random words from a popular diceware words list."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+      integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+      crossorigin="anonymous"
+    />
   </head>
   <body style="margin:3em;">
     <noscript>
@@ -24,21 +32,29 @@
           It uses a cryptographically sound method, but please switch to
           <a href="http://world.std.com/~reinhold/dicewarefaq.html#electronic">physical entropy</a>
           for your highest security applications.
+        </p>
       </div>
     </div>
     <div class="pure-form">
-      <input type="number" id="howMany" value="500" required>
-      <button type="button" id="run" class="pure-button pure-button-primary" onclick="run()">
+      <input type="number" id="howMany" value="500" required />
+      <button
+        type="button"
+        id="run"
+        class="pure-button pure-button-primary"
+        onclick="run()"
+      >
         Get Words
       </button>
       <p id="result"></p>
     </div>
 
     <a href="https://github.com/robert-claypool/almost-rw">
-      <img style="position: absolute; top: 0; right: 0; border: 0;"
-           src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
-           alt="Fork me on GitHub"
-           data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+      <img
+        style="position: absolute; top: 0; right: 0; border: 0;"
+        src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
+        alt="Fork me on GitHub"
+        data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"
+      />
     </a>
 
     <script src="almost.js"></script>
@@ -46,7 +62,9 @@
       function run() {
         almost.load(function() {
           var howMany = document.getElementById('howMany').value;
-          document.getElementById('result').innerHTML = almost.getWords(howMany);
+          document.getElementById('result').innerHTML = almost.getWords(
+            howMany
+          );
         });
       }
     </script>
