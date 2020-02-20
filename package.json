@@ -15,7 +15,7 @@
     "passphrase"
   ],
   "author": "Robert Claypool",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/robert-claypool/almost-rw/issues"
   },
