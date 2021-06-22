@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/robert-claypool/almost-rw#readme",
   "devDependencies": {
-    "eslint": "5.16.0",
-    "grunt": "^1.0.4",
-    "grunt-eslint": "^21.0.0",
-    "prettier": "^1.18.2"
+    "eslint": "7.29.0",
+    "grunt": "^1.4.1",
+    "grunt-eslint": "^23.0.0",
+    "prettier": "^2.3.1"
   }
 }

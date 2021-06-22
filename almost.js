@@ -2,7 +2,7 @@
 
 var almost = {};
 
-(function() {
+(function () {
   var wordlist = [];
   var request;
   var uInt16Range;
@@ -17,7 +17,7 @@ var almost = {};
   var i;
   var j;
 
-  almost.load = function(callback) {
+  almost.load = function (callback) {
     if (wordlist.length > 0) {
       // It's already loaded
       callback();
@@ -28,7 +28,7 @@ var almost = {};
     request = new XMLHttpRequest();
     request.open('GET', 'eff_large_wordlist.asc', true);
 
-    request.onload = function() {
+    request.onload = function () {
       if (request.status >= 200 && request.status < 400) {
         // Extract the words
         data = request.responseText;
@@ -65,7 +65,7 @@ var almost = {};
       }
     };
 
-    request.onerror = function() {
+    request.onerror = function () {
       // There was a connection error of some sort
       // TODO: handle it
     };
@@ -73,7 +73,7 @@ var almost = {};
     request.send();
   };
 
-  almost.getWords = function(howMany) {
+  almost.getWords = function (howMany) {
     c = window.crypto || window.msCrypto;
     if (c && c.getRandomValues) {
       // Get random values using a cryptographically sound method
