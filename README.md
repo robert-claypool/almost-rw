@@ -10,6 +10,8 @@ https://github.com/indexzero/http-server is an easy choice, but any web server w
 ```Shell
 git clone https://github.com/robert-claypool/almost-rw.git
 cd almost-rw
+nvm install
+nvm use
 npm install --global http-server
 http-server # defaults to port 8080, http://localhost:8080/index.html
 ```
@@ -17,8 +19,7 @@ http-server # defaults to port 8080, http://localhost:8080/index.html
 ## Linting the Code
 ```Shell
 npm install # Install packages
-npm install --global grunt-cli # Grunt CLI must be globally installed
-grunt
+npm run lint
 ```
 
 ## Build
