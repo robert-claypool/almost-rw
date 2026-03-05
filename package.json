@@ -5,7 +5,7 @@
   "main": "almost.js",
   "scripts": {
     "lint": "eslint almost.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
   "repository": {
     "type": "git",

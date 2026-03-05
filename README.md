@@ -22,5 +22,10 @@ npm install # Install packages
 npm run lint
 ```
 
+## Testing
+```Shell
+npm test
+```
+
 ## Build
 There is no build.

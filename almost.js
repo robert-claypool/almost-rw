@@ -5,17 +5,38 @@ var almost = {};
 (function () {
   var wordlist = [];
   var request;
-  var uInt16Range;
   var array;
   var data;
   var lines;
   var line;
   var words;
   var word;
-  var pct;
+  var howManyNumber;
   var c;
   var i;
   var j;
+
+  function normalizeHowMany(howMany) {
+    var parsed = Number(howMany);
+    if (!isFinite(parsed) || parsed < 1) {
+      return 1;
+    }
+    parsed = Math.floor(parsed);
+    if (parsed > 1000) {
+      return 1000;
+    }
+    return parsed;
+  }
+
+  function toWordIndex(randomValue, listLength) {
+    // 0x0000..0xFFFF maps to 0..(listLength - 1)
+    return Math.floor((randomValue / 65536) * listLength);
+  }
+
+  almost._internal = {
+    normalizeHowMany: normalizeHowMany,
+    toWordIndex: toWordIndex,
+  };
 
   almost.load = function (callback) {
     if (wordlist.length > 0) {
@@ -78,20 +99,14 @@ var almost = {};
     if (c && c.getRandomValues) {
       // Get random values using a cryptographically sound method
       // http://stackoverflow.com/questions/5651789/is-math-random-cryptographically-secure
-      if (howMany > 1000) {
-        howMany = 1000;
-      }
+      howManyNumber = normalizeHowMany(howMany);
       // Edge requires explicit type conversion
-      array = new Uint16Array(Number(howMany));
+      array = new Uint16Array(howManyNumber);
       c.getRandomValues(array);
 
       words = [];
-      uInt16Range = 65535; // 0xFFFF - 0x0000
       for (i = 0; i < array.length; i++) {
-        // Get our random number as a percent along the range of possibilities
-        pct = array[i] / uInt16Range;
-        // Scale up for the number of words we have
-        j = Math.floor(pct * wordlist.length);
+        j = toWordIndex(array[i], wordlist.length);
         word = wordlist[j];
         words.push(word);
       }
@@ -104,3 +119,7 @@ var almost = {};
     );
   };
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = almost;
+}
