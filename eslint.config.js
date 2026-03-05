@@ -2,11 +2,13 @@
 
 module.exports = [
   {
-    files: ['almost.js'],
+    files: ['almost.js', 'app.js'],
     languageOptions: {
       ecmaVersion: 5,
       sourceType: 'script',
       globals: {
+        almost: 'readonly',
+        document: 'readonly',
         window: 'readonly',
         XMLHttpRequest: 'readonly',
         Uint16Array: 'readonly',

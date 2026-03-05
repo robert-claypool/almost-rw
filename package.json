@@ -4,7 +4,7 @@
   "description": "Almost random words",
   "main": "almost.js",
   "scripts": {
-    "lint": "eslint almost.js",
+    "lint": "eslint almost.js app.js",
     "test": "node --test"
   },
   "repository": {

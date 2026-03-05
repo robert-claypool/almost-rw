@@ -52,29 +52,6 @@
     <a class="repo-link" href="https://github.com/robert-claypool/almost-rw">Source on GitHub</a>
 
     <script src="almost.js"></script>
-    <script>
-      (function () {
-        var runButton = document.getElementById('run');
-        var howManyInput = document.getElementById('howMany');
-        var result = document.getElementById('result');
-
-        function run() {
-          runButton.disabled = true;
-          result.textContent = 'Loading word list...';
-          almost.load(function (loadError) {
-            if (loadError) {
-              result.textContent = loadError;
-              runButton.disabled = false;
-              return;
-            }
-
-            result.textContent = almost.getWords(howManyInput.value);
-            runButton.disabled = false;
-          });
-        }
-
-        runButton.addEventListener('click', run);
-      })();
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>
