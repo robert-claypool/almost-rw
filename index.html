@@ -36,12 +36,19 @@
       </div>
     </div>
     <div class="pure-form">
-      <input type="number" id="howMany" value="500" required />
+      <input
+        type="number"
+        id="howMany"
+        value="500"
+        min="1"
+        max="1000"
+        step="1"
+        required
+      />
       <button
         type="button"
         id="run"
         class="pure-button pure-button-primary"
-        onclick="run()"
       >
         Get Words
       </button>
@@ -59,14 +66,28 @@
 
     <script src="almost.js"></script>
     <script>
-      function run() {
-        almost.load(function() {
-          var howMany = document.getElementById('howMany').value;
-          document.getElementById('result').innerHTML = almost.getWords(
-            howMany
-          );
-        });
-      }
+      (function () {
+        var runButton = document.getElementById('run');
+        var howManyInput = document.getElementById('howMany');
+        var result = document.getElementById('result');
+
+        function run() {
+          runButton.disabled = true;
+          result.textContent = 'Loading word list...';
+          almost.load(function (loadError) {
+            if (loadError) {
+              result.textContent = loadError;
+              runButton.disabled = false;
+              return;
+            }
+
+            result.textContent = almost.getWords(howManyInput.value);
+            runButton.disabled = false;
+          });
+        }
+
+        runButton.addEventListener('click', run);
+      })();
     </script>
   </body>
 </html>

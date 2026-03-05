@@ -21,3 +21,21 @@ test('normalizeHowMany clamps and sanitizes input values', function () {
   assert.equal(almost._internal.normalizeHowMany(-10), 1);
   assert.equal(almost._internal.normalizeHowMany('abc'), 1);
 });
+
+test('extractWordsFromWordlistData parses words from signed file format', function () {
+  var data = [
+    '-----BEGIN PGP SIGNED MESSAGE-----',
+    'Hash: SHA256',
+    '',
+    'https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases',
+    '11111 abacus',
+    '11112 abdomen',
+    '-----BEGIN PGP SIGNATURE-----',
+    '99999 should-not-parse',
+  ].join('\n');
+
+  assert.deepEqual(almost._internal.extractWordsFromWordlistData(data), [
+    'abacus',
+    'abdomen',
+  ]);
+});
