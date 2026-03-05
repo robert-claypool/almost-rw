@@ -9,6 +9,8 @@ var almost = {};
   var loadError = null;
   var maxWords = 1000;
   var expectedWordCount = 7776;
+  var expectedWordlistSha256 =
+    'e06e7d4c695f85d39a79ebefe9b4c403e40ddcd5e65c5eac6c2be541c4619da9';
 
   function normalizeHowMany(howMany) {
     var parsed = Number(howMany);
@@ -63,6 +65,50 @@ var almost = {};
     return extractedWords;
   }
 
+  function getSubtleCrypto() {
+    var c = window.crypto || window.msCrypto;
+    if (c && c.subtle && c.subtle.digest) {
+      return c.subtle;
+    }
+    return null;
+  }
+
+  function textToUtf8Bytes(text) {
+    var utf8;
+    var bytes;
+    var i;
+
+    if (typeof TextEncoder !== 'undefined') {
+      return new TextEncoder().encode(text);
+    }
+
+    // Fallback for older engines that lack TextEncoder.
+    utf8 = unescape(encodeURIComponent(text));
+    bytes = new Uint8Array(utf8.length);
+    for (i = 0; i < utf8.length; i++) {
+      bytes[i] = utf8.charCodeAt(i);
+    }
+
+    return bytes;
+  }
+
+  function bytesToHex(buffer) {
+    var bytes = new Uint8Array(buffer);
+    var hex = '';
+    var i;
+    var byteHex;
+
+    for (i = 0; i < bytes.length; i++) {
+      byteHex = bytes[i].toString(16);
+      if (byteHex.length === 1) {
+        byteHex = '0' + byteHex;
+      }
+      hex += byteHex;
+    }
+
+    return hex;
+  }
+
   function flushLoadCallbacks(error) {
     var callback;
     while (loadCallbacks.length > 0) {
@@ -75,11 +121,40 @@ var almost = {};
     return words.length === expectedWordCount;
   }
 
+  function hasExpectedWordlistHash(digestHex) {
+    return digestHex === expectedWordlistSha256;
+  }
+
+  function verifyWordlistSha256(data, callback) {
+    var subtle = getSubtleCrypto();
+
+    if (!subtle) {
+      callback('Error: Cannot verify word list integrity in this browser.');
+      return;
+    }
+
+    subtle
+      .digest('SHA-256', textToUtf8Bytes(data))
+      .then(function (hashBuffer) {
+        var digestHex = bytesToHex(hashBuffer);
+        if (!hasExpectedWordlistHash(digestHex)) {
+          callback('Error: Word list integrity check failed.');
+          return;
+        }
+        callback(null);
+      })
+      .catch(function () {
+        callback('Error: Failed to verify word list integrity.');
+      });
+  }
+
   almost._internal = {
     normalizeHowMany: normalizeHowMany,
     toWordIndex: toWordIndex,
     extractWordsFromWordlistData: extractWordsFromWordlistData,
     hasExpectedWordCount: hasExpectedWordCount,
+    hasExpectedWordlistHash: hasExpectedWordlistHash,
+    expectedWordlistSha256: expectedWordlistSha256,
   };
 
   almost.load = function (callback) {
@@ -110,19 +185,31 @@ var almost = {};
     request.open('GET', 'eff_large_wordlist.asc', true);
 
     request.onload = function () {
-      if (request.status >= 200 && request.status < 400) {
-        extractedWords = extractWordsFromWordlistData(request.responseText);
-        if (!hasExpectedWordCount(extractedWords)) {
-          loadError =
-            'Error: Could not parse the expected Diceware list (7776 words).';
-          isLoading = false;
-          flushLoadCallbacks(loadError);
-          return;
-        }
+      var wordlistData;
 
-        wordlist = extractedWords;
-        isLoading = false;
-        flushLoadCallbacks(null);
+      if (request.status >= 200 && request.status < 400) {
+        wordlistData = request.responseText;
+        verifyWordlistSha256(wordlistData, function (verificationError) {
+          if (verificationError) {
+            loadError = verificationError;
+            isLoading = false;
+            flushLoadCallbacks(loadError);
+            return;
+          }
+
+          extractedWords = extractWordsFromWordlistData(wordlistData);
+          if (!hasExpectedWordCount(extractedWords)) {
+            loadError =
+              'Error: Could not parse the expected Diceware list (7776 words).';
+            isLoading = false;
+            flushLoadCallbacks(loadError);
+            return;
+          }
+
+          wordlist = extractedWords;
+          isLoading = false;
+          flushLoadCallbacks(null);
+        });
         return;
       }
 

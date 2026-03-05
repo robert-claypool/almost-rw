@@ -1,7 +1,7 @@
 # Almost Random Words
 See https://robert-claypool.github.io/almost-rw/
 
-This project is a simple page to request random words from a [popular Diceware words list](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases). It uses a cryptographically sound method, but please use [physical entropy](https://theworld.com/~reinhold/diceware.html) for your highest security applications.
+This project is a simple page to request random words from a [popular Diceware words list](https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases). It verifies the bundled wordlist using a pinned SHA-256 digest and uses a cryptographically sound method for random selection, but please use [physical entropy](https://theworld.com/~reinhold/diceware.html) for your highest security applications.
 
 Selection of words happens in the browser. If you run this locally, no Internet access is required after cloning this repository.
 
