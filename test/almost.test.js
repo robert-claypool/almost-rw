@@ -39,3 +39,8 @@ test('extractWordsFromWordlistData parses words from signed file format', functi
     'abdomen',
   ]);
 });
+
+test('hasExpectedWordCount verifies the Diceware list length', function () {
+  assert.equal(almost._internal.hasExpectedWordCount(new Array(7776)), true);
+  assert.equal(almost._internal.hasExpectedWordCount(['only-one']), false);
+});

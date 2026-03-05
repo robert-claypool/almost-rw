@@ -8,6 +8,7 @@ var almost = {};
   var isLoading = false;
   var loadError = null;
   var maxWords = 1000;
+  var expectedWordCount = 7776;
 
   function normalizeHowMany(howMany) {
     var parsed = Number(howMany);
@@ -70,10 +71,15 @@ var almost = {};
     }
   }
 
+  function hasExpectedWordCount(words) {
+    return words.length === expectedWordCount;
+  }
+
   almost._internal = {
     normalizeHowMany: normalizeHowMany,
     toWordIndex: toWordIndex,
     extractWordsFromWordlistData: extractWordsFromWordlistData,
+    hasExpectedWordCount: hasExpectedWordCount,
   };
 
   almost.load = function (callback) {
@@ -90,16 +96,13 @@ var almost = {};
       return;
     }
 
-    if (loadError) {
-      callback(loadError);
-      return;
-    }
-
     loadCallbacks.push(callback);
     if (isLoading) {
       return;
     }
 
+    // Retry on demand after transient request errors.
+    loadError = null;
     isLoading = true;
 
     // Requires a web server; CORS will reject loading this via the file: protocol
@@ -109,8 +112,9 @@ var almost = {};
     request.onload = function () {
       if (request.status >= 200 && request.status < 400) {
         extractedWords = extractWordsFromWordlistData(request.responseText);
-        if (extractedWords.length === 0) {
-          loadError = 'Error: Could not parse any words from the word list.';
+        if (!hasExpectedWordCount(extractedWords)) {
+          loadError =
+            'Error: Could not parse the expected Diceware list (7776 words).';
           isLoading = false;
           flushLoadCallbacks(loadError);
           return;
